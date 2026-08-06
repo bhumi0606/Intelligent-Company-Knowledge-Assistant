@@ -1,7 +1,7 @@
 import re
 
 # chunk by sentence
-def chunk_by_sentence(pages,chunk_size=5,overlap=1):
+def chunk_by_sentence(pages,file_name,chunk_size=5,overlap=1):
     if chunk_size <= 0:
         raise ValueError("chunk size must be greater then 0")
 
@@ -23,7 +23,8 @@ def chunk_by_sentence(pages,chunk_size=5,overlap=1):
             if chunk:
                 chunks.append(
                     {
-                        "chunk_id": chunk_id,
+                        "chunk_id": f"{file_name}_p{page_number}_c{chunk_id}",
+                        "file_name": file_name,
                         "page_number":page_number,
                         "content":" ".join(chunk)
                     }

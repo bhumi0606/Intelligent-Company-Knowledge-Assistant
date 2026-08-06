@@ -7,11 +7,15 @@ client = OpenAI()
 
 # generate embeddings
 def generate_embeddings(chunks):
-    chunk = []
+    text = []
     for c in chunks:
-        chunk.append(c["content"])
+        text.append(c["content"])
     response = client.embeddings.create(
         model = "text-embedding-3-small",
-        input = chunk
+        input = text
     )
-    return response.data[0].embedding
+    
+    for chunk, embedding_obj in zip(chunks, response.data):
+        chunk["embedding"] = embedding_obj.embedding
+
+    return chunks
