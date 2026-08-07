@@ -1,3 +1,5 @@
+from typing import List
+
 import chromadb
 
 client = chromadb.PersistentClient(path="./chroma_db")
@@ -29,3 +31,29 @@ def store_chunks(chunks,file_name, upload_date):
         documents=documents,
         metadatas=metadatas
     )
+
+def similarity_search(query_embeddings: List[float], top_k: int = 5):
+    results = collection.query(
+        query_embeddings = query_embeddings,
+        n_results = top_k
+    )
+    matches = []
+    ids = results["ids"][0]
+    documents = results["documents"][0]
+    metadatas = results["metadatas"][0]
+    distances = results["distances"][0]
+
+    for i, chunk_id in enumerate(ids):
+        metadata = metadatas[i]
+        matches.append(
+            {
+                "chunk_id": metadata["chunk_id"],
+                "text": documents[i],
+                "file_name": metadata["file_name"],
+                "page_number": metadata["page_number"],
+                "upload_date": metadata["upload_date"],
+                "score": 1 - distances[i]
+            }
+        )
+
+    return matches
