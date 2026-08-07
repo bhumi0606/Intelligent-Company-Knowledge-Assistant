@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI()
-system_prompt = """ You are a company knowledge assistant. 
+default_system_prompt = """ You are a company knowledge assistant. 
                     Answer the user's question using only the information given in context below. 
                     Do not use any outside knowledge. 
                     If the context does not contain answer, 
@@ -24,7 +24,8 @@ def create_context(chunks):
 
 def generate_answer(
         query: str,
-        chunks: List[dict]
+        chunks: List[dict],
+        system_prompt: str = default_system_prompt
 ):
     context = create_context(chunks)
     user_prompt = f"context: {context}, Question: {query}"
@@ -46,11 +47,11 @@ def generate_answer(
     return response.choices[0].message.content
 
 
-def answer_query(query: str, top_k: int = 5):
+def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = 5):
     chunks = retrieve(query,top_k)
 
     if not chunks:
         return {"answer":"No information"}
 
-    answer = generate_answer(query,chunks)
+    answer = generate_answer(query, chunks, system_prompt)
     return answer
