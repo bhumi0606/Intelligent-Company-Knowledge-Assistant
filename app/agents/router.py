@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from app.agents.hr_agent import answer as hr_answer
 from app.agents.it_agent import answer as it_answer
 from app.agents.finance_agent import answer as finance_answer
+from app.agents.general_agent import answer as general_answer
 
 load_dotenv()
 client = OpenAI()
@@ -46,3 +47,5 @@ def route(question: str):
         return it_answer(question)
     if intent == "finance":
         return finance_answer(question)
+    if intent == "general":
+        return general_answer(question)
