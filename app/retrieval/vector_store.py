@@ -72,3 +72,13 @@ def get_chunks_by_file(filename: str):
             "page_number": metadata["page_number"]
         })
     return chunks
+
+def list_uploaded_document():
+    result = collection.get(
+        include=["metadatas"]
+    )
+    documents = set()
+    for metadata in result["metadatas"]:
+        documents.add(metadata["file_name"])
+
+    return documents

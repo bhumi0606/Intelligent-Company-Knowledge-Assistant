@@ -1,3 +1,4 @@
+from app.tools.list_documents import tool_list_uploaded_document
 from app.tools.summarize_document import summarize_document
 from app.tools.search_documents import search_document
 
@@ -39,10 +40,18 @@ tools = [
                 'required':["filename"]
             }
         }       
+    },
+    {
+        'type':'function',
+        'function':{
+            'name':'tool_list_uploaded_document',
+            'description':'list all uploaded documents'
+        }
     }
 ]
 
 tool_mapping = {
     "search_document": search_document,
-    "summarize_document": summarize_document
+    "summarize_document": summarize_document,
+    "tool_list_uploaded_document": tool_list_uploaded_document
 }
