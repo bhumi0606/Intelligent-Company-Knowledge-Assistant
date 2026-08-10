@@ -57,3 +57,18 @@ def similarity_search(query_embeddings: List[float], top_k: int = 5):
         )
 
     return matches
+
+def get_chunks_by_file(filename: str):
+    result = collection.get(
+        where={"file_name":filename}
+    )
+
+    chunks = []
+    for i in range(len(result["ids"])):
+        metadata = result["metadatas"][i]
+        chunks.append({
+            "chunk_id": metadata["chunk_id"],
+            "text": result["documents"][i],
+            "page_number": metadata["page_number"]
+        })
+    return chunks
