@@ -8,4 +8,5 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
+    citations: list
     agent_used: str = Optional[None]
