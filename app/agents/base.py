@@ -19,7 +19,7 @@ class BaseAgent:
  
         response = client.chat.completions.create(
                 model="gpt-5-mini",
-                messages = messages
+                messages = messages,
                 tools=tools
             )
         
@@ -28,10 +28,22 @@ class BaseAgent:
             return None
         
         tool_messages = [message]
+        citations = []
         for call in message.tool_calls:
             args = json.loads(call.function.arguments or "{}")
             tool_function = tool_mapping[call.function.name]
             result = tool_function(**args)
+            if call.function.name == "search_document" and result:
+                for c in result:
+                    citations.append(
+                        {
+                            "file_name": c["file_name"],
+                            "page_number": c["page_number"],
+                            "chunk_id": c["chunk_id"],
+                            "score": c["score"],
+                        }
+                )
+ 
             tool_messages.append({
                 "role": "tool",
                 "tool_call_id": call.id,
@@ -41,20 +53,21 @@ class BaseAgent:
         final_response = client.chat.completions.create(
             model = "gpt-5-mini",
             messages=[
-                *messages
+                *messages,
                 *tool_messages,
             ]
         )
-        return final_response.choices[0].message.content
+        return final_response.choices[0].message.content, citations
 
 
     def answer(self, question: str, session_id: str):
         history = get_history(session_id)
 
-        tool_answer = self.tool_calling(question, history)
+        tool_answer, tool_citations = self.tool_calling(question, history)
         if tool_answer is not None:
             return {
                 "answer": tool_answer,
+                "citations": tool_citations,
                 "agent_used": self.name
             }
         else:
