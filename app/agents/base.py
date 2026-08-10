@@ -12,21 +12,17 @@ class BaseAgent:
         self.name = name
         self.system_prompt = system_prompt
 
-    def tool_calling(self, question: str):
+    def tool_calling(self, question: str, history):
+        messages = [{"role": "system", "content": self.system_prompt}]
+        messages.extend(history)
+        messages.append({"role": "user", "content": question})
+ 
         response = client.chat.completions.create(
                 model="gpt-5-mini",
-                messages = [
-                    {
-                        'role':'system',
-                        'content':self.system_prompt
-                    },
-                    {
-                        "role":"user",
-                        "content": question
-                    }
-                ],
+                messages = messages
                 tools=tools
             )
+        
         message = response.choices[0].message
         if not message.tool_calls:
             return None
@@ -45,8 +41,7 @@ class BaseAgent:
         final_response = client.chat.completions.create(
             model = "gpt-5-mini",
             messages=[
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": question},
+                *messages
                 *tool_messages,
             ]
         )
@@ -56,7 +51,7 @@ class BaseAgent:
     def answer(self, question: str, session_id: str):
         history = get_history(session_id)
 
-        tool_answer = self.tool_calling(question)
+        tool_answer = self.tool_calling(question, history)
         if tool_answer is not None:
             return {
                 "answer": tool_answer,
