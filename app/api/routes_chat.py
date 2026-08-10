@@ -16,6 +16,4 @@ async def chat_query(query: ChatRequest):
             detail=f"Can not answer query: {e}"
         )
 
-    return ChatResponse(
-        answer = answer
-    )
+    return answer
