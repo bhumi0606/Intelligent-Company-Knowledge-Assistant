@@ -25,33 +25,30 @@ def create_context(chunks):
 def generate_answer(
         query: str,
         chunks: List[dict],
-        system_prompt: str = default_system_prompt
+        system_prompt: str = default_system_prompt,
+        history: List[dict] = None
 ):
     context = create_context(chunks)
     user_prompt = f"context: {context}, Question: {query}"
-    
+
+    messages = [{'role':'system',"content":system_prompt}]
+    if history:
+        messages.extend(history)
+    messages.append({"role": "user", "content": user_prompt})
+
     response = client.chat.completions.create(
         model = "gpt-5-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": system_prompt
-            },
-            {
-                "role": "user",
-                "content": user_prompt
-            }
-        ]
+        messages= messages
     )
 
     return response.choices[0].message.content
 
 
-def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = 5):
+def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = 5, history: List[dict] = None):
     chunks = retrieve(query,top_k)
 
     if not chunks:
         return {"answer":"No information"}
 
-    answer = generate_answer(query, chunks, system_prompt)
+    answer = generate_answer(query, chunks, system_prompt,history)
     return answer
