@@ -1,3 +1,4 @@
+from app.tools.current_date import get_current_date
 from app.tools.list_documents import tool_list_uploaded_document
 from app.tools.summarize_document import summarize_document
 from app.tools.search_documents import search_document
@@ -47,11 +48,19 @@ tools = [
             'name':'tool_list_uploaded_document',
             'description':'list all uploaded documents'
         }
+    },
+    {
+        'type':'function',
+        'function':{
+            'name':'get_current_date',
+            'description':'return current date'
+        }
     }
 ]
 
 tool_mapping = {
     "search_document": search_document,
     "summarize_document": summarize_document,
-    "tool_list_uploaded_document": tool_list_uploaded_document
+    "tool_list_uploaded_document": tool_list_uploaded_document,
+    "get_current_date":get_current_date
 }
