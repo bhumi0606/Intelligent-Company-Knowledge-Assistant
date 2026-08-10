@@ -1,3 +1,4 @@
+from app.tools.calculator import tool_calculator
 from app.tools.current_date import get_current_date
 from app.tools.list_documents import tool_list_uploaded_document
 from app.tools.summarize_document import summarize_document
@@ -55,6 +56,28 @@ tools = [
             'name':'get_current_date',
             'description':'return current date'
         }
+    },
+    {
+        'type':'function',
+        'function':{
+            'name':'tool_calculator',
+            'description':""" Use this tool whenever the user asks to calculate, solve,
+                    or find the answer to a mathematical expression.
+                    This includes natural-language questions such as
+                    'What is 12 + 30?', 'How much is 50 divided by 5?',
+                    or 'Solve 10 * 4'.
+                    Supports addition, subtraction, multiplication, division,
+                    modulo, and power.""",
+            'parameters':{
+                'type':'object',
+                'properties':{
+                    'expression':{
+                        'type':'string'
+                    }
+                },
+                'required':["expression"]
+            }
+        }
     }
 ]
 
@@ -62,5 +85,6 @@ tool_mapping = {
     "search_document": search_document,
     "summarize_document": summarize_document,
     "tool_list_uploaded_document": tool_list_uploaded_document,
-    "get_current_date":get_current_date
+    "get_current_date":get_current_date,
+    "tool_calculator": tool_calculator
 }
