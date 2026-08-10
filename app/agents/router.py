@@ -39,13 +39,13 @@ def detect_intent(question: str):
         return "general"
     return category
 
-def route(question: str):
+def route(question: str, session_id: str):
     intent = detect_intent(question)
     if intent == "hr":
-        return hr_answer(question)
+        return hr_answer(question,session_id)
     if intent == "it":
-        return it_answer(question)
+        return it_answer(question, session_id)
     if intent == "finance":
-        return finance_answer(question)
+        return finance_answer(question, session_id)
     if intent == "general":
-        return general_answer(question)
+        return general_answer(question, session_id)

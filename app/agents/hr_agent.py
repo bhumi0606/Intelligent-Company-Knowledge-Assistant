@@ -11,5 +11,5 @@ agent = BaseAgent(
     """
 )
 
-def answer(question: str):
-    return agent.answer(question)
+def answer(question: str, session_id):
+    return agent.answer(question, session_id)

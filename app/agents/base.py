@@ -1,4 +1,5 @@
 
+from app.memory.chat_history import add_message, get_history
 from app.rag.generate_answer import answer_query
 from openai import OpenAI
 from app.tools.tool_schemas import tools, tool_mapping
@@ -52,15 +53,20 @@ class BaseAgent:
         return final_response.choices[0].message.content
 
 
-    def answer(self, question: str):
+    def answer(self, question: str, session_id: str):
+        history = get_history(session_id)
+
         tool_answer = self.tool_calling(question)
         if tool_answer is not None:
             return {
                 "answer": tool_answer,
                 "agent_used": self.name
             }
+        else:
+            result = answer_query(question, self.system_prompt, history)
+            result["agent_used"] = self.name
+        
+        add_message(session_id, "user", question)
+        add_message(session_id, "assistant", result["answer"])
 
-        result = answer_query(question, self.system_prompt)
-        return {
-            "answer": result
-        }
+        return result
