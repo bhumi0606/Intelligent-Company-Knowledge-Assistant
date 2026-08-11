@@ -24,7 +24,7 @@ class BaseAgent:
         
         message = response.choices[0].message
         if not message.tool_calls:
-            return None, []
+            return None, [], []
         
         tool_messages = [message]
         citations = []
