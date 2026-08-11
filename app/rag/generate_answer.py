@@ -1,6 +1,6 @@
 from typing import List
 
-from app.config import CHAT_MODEL
+from app.config import CHAT_MODEL, TOP_K
 from app.retrieval.retriever import retrieve
 from app.core.openai_client import client
 
@@ -41,11 +41,15 @@ def generate_answer(
     return response.choices[0].message.content
 
 
-def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = 5, history: List[dict] = None):
+def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = TOP_K, history: List[dict] = None):
     chunks = retrieve(query,top_k)
 
     if not chunks:
-        return {"answer":"No information"}
+        return {
+            "answer": "I couldn't find relevant information for this question in the uploaded documents.",
+            "citations": [],
+            "retrieved_chunks": []
+        }
 
     answer = generate_answer(query, chunks, system_prompt,history)
     citations = []
