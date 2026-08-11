@@ -10,7 +10,6 @@ collection = client.get_or_create_collection(
 )
 
 def store_chunks(chunks,file_name, upload_date):
-
     ids = []
     documents = []
     embeddings = []
@@ -35,7 +34,7 @@ def store_chunks(chunks,file_name, upload_date):
 
 def similarity_search(query_embeddings: List[float], top_k: int = 5):
     results = collection.query(
-        query_embeddings = query_embeddings,
+        query_embeddings = [query_embeddings],
         n_results = top_k
     )
     matches = []
