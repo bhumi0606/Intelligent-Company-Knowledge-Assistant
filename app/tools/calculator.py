@@ -3,6 +3,10 @@ def tool_calculator(expression: str):
     try:
         expression = expression.strip()
 
+        if '**' in expression:
+                    a, b = expression.split('**')
+                    return float(a) ** float(b)
+        
         if '+' in expression:
             a, b = expression.split('+')
             return float(a) + float(b)
@@ -20,10 +24,6 @@ def tool_calculator(expression: str):
             if b == 0:
                 raise ValueError("Can not divide by zero")
             return float(a) / float(b)
-
-        if '**' in expression:
-            a, b = expression.split('**')
-            return float(a) ** float(b)
 
         if '%' in expression:
             a, b = expression.split('%')

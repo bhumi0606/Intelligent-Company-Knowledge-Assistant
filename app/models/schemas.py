@@ -10,7 +10,7 @@ class ChatResponse(BaseModel):
     answer: str
     citations: list
     retrieved_chunks: list
-    agent_used: str = Optional[None]
+    agent_used: Optional[str] = None
 
 class FeedbackRequest(BaseModel):
     session_id: str
