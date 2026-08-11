@@ -4,7 +4,7 @@ from typing import Optional
 def search_document(
     query: str,
     top_k: int = 5,
-    document_filter: str = Optional[None]
+    document_filter: Optional[str] = None
 ):
     return retrieve(
         query= query,

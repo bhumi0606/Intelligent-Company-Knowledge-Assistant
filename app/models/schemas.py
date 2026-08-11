@@ -9,4 +9,13 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     citations: list
+    retrieved_chunks: list
     agent_used: str = Optional[None]
+
+class FeedbackRequest(BaseModel):
+    session_id: str
+    question: str
+    retrieved_chunks: list[str]
+    final_answer: str
+    feedback: str
+    timestamp: str
