@@ -1,7 +1,6 @@
+from app.config import CHAT_MODEL
 from app.retrieval.vector_store import get_chunks_by_file
-from openai import OpenAI
-
-client = OpenAI()
+from app.core.openai_client import client
 
 def summarize_document(filename: str):
     chunks = get_chunks_by_file(filename=filename)
@@ -13,7 +12,7 @@ def summarize_document(filename: str):
         text += c["text"] + "\n"
 
     response = client.chat.completions.create(
-        model="gpt-5-mini",
+        model=CHAT_MODEL,
         messages=[
             {
                 'role':'user',
