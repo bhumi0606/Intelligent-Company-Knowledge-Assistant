@@ -1,12 +1,9 @@
 from typing import List
-from openai import OpenAI
 
+from app.config import CHAT_MODEL
 from app.retrieval.retriever import retrieve
-from dotenv import load_dotenv
+from app.core.openai_client import client
 
-load_dotenv()
-
-client = OpenAI()
 default_system_prompt = """ You are a company knowledge assistant. 
                     Answer the user's question using only the information given in context below. 
                     Do not use any outside knowledge. 
@@ -37,7 +34,7 @@ def generate_answer(
     messages.append({"role": "user", "content": user_prompt})
 
     response = client.chat.completions.create(
-        model = "gpt-5-mini",
+        model = CHAT_MODEL,
         messages= messages
     )
 

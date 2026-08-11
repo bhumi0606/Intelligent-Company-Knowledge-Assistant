@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
 import os
 
+from app.config import UPLOAD_DIR
 from app.db.database import get_db
 from app.db.models import Document
 from app.retrieval.vector_store import store_chunks
@@ -31,7 +32,7 @@ async def upload_file(file: UploadFile = File(), department: str = None, db: Ses
         )
 
     # make folder upload 
-    os.makedirs("/Upload",exist_ok=True)
+    os.makedirs(UPLOAD_DIR,exist_ok=True)
     # join file path 
     file_path = os.path.join("/Upload",file.filename)
 
