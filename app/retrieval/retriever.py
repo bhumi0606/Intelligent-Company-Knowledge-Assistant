@@ -1,6 +1,7 @@
 from typing import Optional
 
 from openai import OpenAI
+from app.config import SIMILARITY_THRESHOLD
 from app.retrieval.vector_store import similarity_search
 from dotenv import load_dotenv
 load_dotenv()
@@ -18,7 +19,7 @@ def generate_query_embeddings(query: str):
 def retrieve(
         query: str,
         top_k: int = 5,
-        document_filter: str = Optional[None]
+        document_filter: Optional[str] = None
 ):
     query_embedding = generate_query_embeddings(query)
     results = similarity_search(
@@ -29,4 +30,10 @@ def retrieve(
     if not results:
         return []
 
-    return results
+    filtered_results = []
+
+    for chunk in results:
+        if chunk["score"] >= SIMILARITY_THRESHOLD:
+            filtered_results.append(chunk)
+
+    return filtered_results
