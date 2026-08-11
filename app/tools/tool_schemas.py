@@ -9,7 +9,16 @@ tools = [
         'type':'function',
         'function': {
             'name':'search_document',
-            'description':"Search the company's related document for relevent chunks",
+            'description':"""Search the company knowledge base for relevant document content.
+
+            Use this tool for company-specific questions about policies,
+            rules, procedures, and information contained in company documents.
+
+            For HR questions, search HR-related documents.
+            For IT questions, search IT-related documents.
+            For Finance questions, search Finance-related documents.
+
+            """,
             'parameters':{
                 'type':'object',
                 'properties':{
@@ -47,7 +56,7 @@ tools = [
         'type':'function',
         'function':{
             'name':'tool_list_uploaded_document',
-            'description':'list all uploaded documents'
+            'description':'List uploaded document names. Use only when the user asks which documents are available.'
         }
     },
     {
