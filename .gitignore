@@ -4,3 +4,5 @@ __pycache__/
 venv/
 .vscode/
 .pytest_cache/
+chroma_db/
+pytest

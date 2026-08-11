@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status, Form
 import os
 
 from app.config import UPLOAD_DIR
@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 upload_router = APIRouter()
 
 @upload_router.post('/upload')
-async def upload_file(file: UploadFile = File(), department: str = None, db: Session = Depends(get_db)):
+async def upload_file(file: UploadFile = File(), department: str = Form(), db: Session = Depends(get_db)):
     file_ext = os.path.splitext(file.filename)[1].lower()
 
     # error handle
@@ -34,9 +34,10 @@ async def upload_file(file: UploadFile = File(), department: str = None, db: Ses
     # make folder upload 
     os.makedirs(UPLOAD_DIR,exist_ok=True)
     # join file path 
-    file_path = os.path.join("/Upload",file.filename)
-
+    file_path = os.path.join(UPLOAD_DIR,file.filename)
+    print("FilePath:", file_path)
     # save file contents into file
+    
     content = await file.read()
     with open(file_path,"wb") as f:
         f.write(content)

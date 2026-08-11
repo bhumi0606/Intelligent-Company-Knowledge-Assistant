@@ -65,5 +65,5 @@ def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: i
     return {
         "answer":answer,
         "citations": citations,
-        "retrived_chunks": chunks
+        "retrieved_chunks": chunks
     }
