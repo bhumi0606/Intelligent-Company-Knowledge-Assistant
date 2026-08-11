@@ -44,4 +44,4 @@ The system is built around three core flows:
 3. Feedback is stored in the database for future analysis/improvement.
 
 ### 4. Diagram
-![architecture](docs\arch-final.png)
+![architecture](./docs/arch-final.png)
