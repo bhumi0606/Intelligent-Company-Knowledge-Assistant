@@ -25,16 +25,18 @@ class BaseAgent:
         
         message = response.choices[0].message
         if not message.tool_calls:
-            return None
+            return None, []
         
         tool_messages = [message]
         citations = []
+        retrieved_chunks = []
         for call in message.tool_calls:
             args = json.loads(call.function.arguments or "{}")
             tool_function = tool_mapping[call.function.name]
             result = tool_function(**args)
             if call.function.name == "search_document" and result:
                 for c in result:
+                    retrieved_chunks.append(c["text"])
                     citations.append(
                         {
                             "file_name": c["file_name"],
@@ -57,21 +59,26 @@ class BaseAgent:
                 *tool_messages,
             ]
         )
-        return final_response.choices[0].message.content, citations
+        return final_response.choices[0].message.content, citations, retrieved_chunks
 
 
     def answer(self, question: str, session_id: str):
         history = get_history(session_id)
 
-        tool_answer, tool_citations = self.tool_calling(question, history)
+        tool_answer, tool_citations, retrieved_chunks = self.tool_calling(question, history)
         if tool_answer is not None:
             return {
                 "answer": tool_answer,
                 "citations": tool_citations,
+                "retrieved_chunks": retrieved_chunks,
                 "agent_used": self.name
             }
         else:
-            result = answer_query(question, self.system_prompt, history)
+            result = answer_query(
+                query=question,
+                system_prompt=self.system_prompt,
+                history=history
+            )
             result["agent_used"] = self.name
         
         add_message(session_id, "user", question)
