@@ -1,9 +1,5 @@
-
-from openai import OpenAI
-from dotenv import load_dotenv
-
-load_dotenv()
-client = OpenAI()
+from app.config import EMBEDDING_MODEL
+from app.core.openai_client import client
 
 # generate embeddings
 def generate_embeddings(chunks):
@@ -11,7 +7,7 @@ def generate_embeddings(chunks):
     for c in chunks:
         text.append(c["content"])
     response = client.embeddings.create(
-        model = "text-embedding-3-small",
+        model = EMBEDDING_MODEL,
         input = text
     )
     

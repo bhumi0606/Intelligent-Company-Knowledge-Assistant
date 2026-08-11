@@ -1,16 +1,12 @@
 from typing import Optional
 
-from openai import OpenAI
-from app.config import SIMILARITY_THRESHOLD
+from app.config import EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K
 from app.retrieval.vector_store import similarity_search
-from dotenv import load_dotenv
-load_dotenv()
-
-client = OpenAI()
+from app.core.openai_client import client
 
 def generate_query_embeddings(query: str):
     response = client.embeddings.create(
-            model = "text-embedding-3-small",
+            model = EMBEDDING_MODEL,
             input = [query]
         )
 
@@ -18,7 +14,7 @@ def generate_query_embeddings(query: str):
 
 def retrieve(
         query: str,
-        top_k: int = 5,
+        top_k: int = TOP_K,
         document_filter: Optional[str] = None
 ):
     query_embedding = generate_query_embeddings(query)

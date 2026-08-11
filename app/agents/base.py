@@ -1,12 +1,11 @@
 
+from app.config import CHAT_MODEL
 from app.memory.chat_history import add_message, get_history
 from app.rag.generate_answer import answer_query
-from openai import OpenAI
 from app.tools.tool_schemas import tools, tool_mapping
 import json
 
-client = OpenAI()
-
+from app.core.openai_client import client
 class BaseAgent:
     def __init__(self, name, system_prompt):
         self.name = name
@@ -18,7 +17,7 @@ class BaseAgent:
         messages.append({"role": "user", "content": question})
  
         response = client.chat.completions.create(
-                model="gpt-5-mini",
+                model=CHAT_MODEL,
                 messages = messages,
                 tools=tools
             )
@@ -53,7 +52,7 @@ class BaseAgent:
             })
 
         final_response = client.chat.completions.create(
-            model = "gpt-5-mini",
+            model = CHAT_MODEL,
             messages=[
                 *messages,
                 *tool_messages,

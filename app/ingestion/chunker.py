@@ -1,7 +1,9 @@
 import re
 
+from app.config import CHUNK_OVERLAP, CHUNK_SIZE
+
 # chunk by sentence
-def chunk_by_sentence(pages,file_name,chunk_size=5,overlap=1):
+def chunk_by_sentence(pages,file_name,chunk_size=CHUNK_SIZE,overlap=CHUNK_OVERLAP):
     if chunk_size <= 0:
         raise ValueError("chunk size must be greater then 0")
 
