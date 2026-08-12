@@ -5,8 +5,7 @@ from app.ingestion.chunker import chunk_by_sentence
 from app.retrieval.vector_store import store_chunks, similarity_search, get_chunks_by_file, list_uploaded_document
 from app.retrieval.retriever import retrieve
 
-# ---------- Chunker Tests ----------
-
+# Chunker Tests
 def test_chunk_by_sentence_basic():
     pages = [
         {"page_number": 1, "text": "Employees are entitled to 12 casual leaves per year. Attendance must be logged daily."}
@@ -30,8 +29,7 @@ def test_chunk_by_sentence_invalid_args():
         chunk_by_sentence(pages, "test.txt", chunk_size=10, overlap=20)
 
 
-# ---------- Vector Store & Retriever Tests ----------
-
+# Vector Store & Retriever Tests
 @patch("app.retrieval.vector_store.collection")
 def test_store_chunks(mock_collection):
     fake_chunk = {

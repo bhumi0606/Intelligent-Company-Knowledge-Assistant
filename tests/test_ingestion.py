@@ -4,10 +4,9 @@ import pytest
 from app.ingestion.extractor import extract_docx, extract_pdf, extract_text, extract_txt
 from app.ingestion.embedder import generate_embeddings
 
-# ---------- extract_pdf ----------
-
+# extract_pdf
 def test_extract_pdf_structure():
-    result = extract_pdf("sample_docs/HR-Policy.pdf")
+    result = extract_pdf("sample_docs/leave_policy_pdf.pdf")
 
     assert isinstance(result, list)
     assert len(result) > 0
@@ -19,7 +18,7 @@ def test_extract_pdf_structure():
 
 
 def test_extract_pdf_page_numbers_sequential():
-    result = extract_pdf("sample_docs/HR-Policy.pdf")
+    result = extract_pdf("sample_docs/leave_policy_pdf.pdf")
     page_numbers = [entry["page_number"] for entry in result]
 
     assert page_numbers == sorted(page_numbers)
@@ -31,10 +30,9 @@ def test_extract_pdf_missing_file():
         extract_pdf("sample_docs/does-not-exist.pdf")
 
 
-# ---------- extract_docx ----------
-
+# extract_docx
 def test_extract_docx_structure():
-    result = extract_docx("sample_docs/leave-policy.docx")
+    result = extract_docx("sample_docs/Finance_KB.docx")
 
     assert isinstance(result, list)
     assert len(result) == 1
@@ -48,10 +46,9 @@ def test_extract_docx_missing_file():
         extract_docx("sample_docs/does-not-exist.docx")
 
 
-# ---------- extract_txt ----------
-
+# extract_txt
 def test_extract_txt_structure():
-    result = extract_txt("sample_docs/Travel-Policy.txt")
+    result = extract_txt("sample_docs/General_Knowledge_KB.txt")
 
     assert isinstance(result, list)
     assert len(result) == 1
@@ -64,12 +61,11 @@ def test_extract_txt_missing_file():
         extract_txt("sample_docs/does-not-exist.txt")
 
 
-# ---------- extract_text (dispatcher) ----------
-
+# extract_text (dispatcher)
 @pytest.mark.parametrize("filename", [
-    "sample_docs/HR-Policy.pdf",
-    "sample_docs/leave-policy.docx",
-    "sample_docs/Travel-Policy.txt",
+    "sample_docs/leave_policy_pdf.pdf",
+    "sample_docs/leave_policy_pdf.pdf",
+    "sample_docs/General_Knowledge_KB.txt",
 ])
 def test_extract_text_dispatches_by_extension(filename):
     result = extract_text(filename)
@@ -82,8 +78,7 @@ def test_extract_text_unsupported_extension():
         extract_text("sample_docs/notes.xyz")
 
 
-# ---------- Embeddings Generation Test ----------
-
+# Embeddings Generation Test
 @patch("app.ingestion.embedder.client")
 def test_generate_embeddings(mock_client):
     fake_embedding_obj = MagicMock()

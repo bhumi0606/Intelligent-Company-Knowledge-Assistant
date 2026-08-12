@@ -10,6 +10,7 @@ default_system_prompt = """ You are a company knowledge assistant.
                     If the context does not contain answer, 
                     say: 'I couldn't find information in provided documents.'"""
 
+# create context from chunks
 def create_context(chunks):
     context = []
     for c in chunks:
@@ -19,6 +20,7 @@ def create_context(chunks):
 
     return "\n".join(context)
 
+# generate the answer from chunks
 def generate_answer(
         query: str,
         chunks: List[dict],
@@ -40,7 +42,7 @@ def generate_answer(
 
     return response.choices[0].message.content
 
-
+# retrieved chunks and generate answer
 def answer_query(query: str, system_prompt: str = default_system_prompt,top_k: int = TOP_K, history: List[dict] = None):
     chunks = retrieve(query,top_k)
 

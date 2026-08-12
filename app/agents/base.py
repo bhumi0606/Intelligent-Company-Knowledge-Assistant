@@ -11,6 +11,7 @@ class BaseAgent:
         self.name = name
         self.system_prompt = system_prompt
 
+    # check if tool is needed and execute the tool
     def tool_calling(self, question: str, history):
         messages = [{"role": "system", "content": self.system_prompt}]
         messages.extend(history)
@@ -60,7 +61,7 @@ class BaseAgent:
         )
         return final_response.choices[0].message.content, citations, retrieved_chunks
 
-
+    # answer the user's question
     def answer(self, question: str, session_id: str):
         history = get_history(session_id)
 

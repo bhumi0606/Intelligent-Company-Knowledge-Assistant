@@ -1,0 +1,68 @@
+GENERAL KNOWLEDGE AGENT - COMPANY REFERENCE DOCUMENT
+Document Owner: Corporate Communications | Version 1.1 | Last Updated: 20 July 2026
+
+This document covers general company information that does not fall under HR, IT Support, or
+Finance. It is used by the General Knowledge Agent to answer miscellaneous employee queries.
+
+1. COMPANY OVERVIEW
+--------------------
+Acme Corp was founded in 2011 and is headquartered in Ahmedabad, Gujarat, India, with regional
+offices in Bengaluru, Pune, and a satellite office in Singapore. The company operates in the
+enterprise SaaS space, providing workflow automation tools to mid-market and enterprise clients
+across 30+ countries. As of the last fiscal year, the company employs approximately 2,400 people
+globally.
+
+2. OFFICE FACILITIES
+---------------------
+The Ahmedabad headquarters includes a cafeteria (open 8:00 AM - 9:00 PM), a wellness room for
+prayer/meditation/nursing mothers, a gym on the 2nd floor (badge access required, open 6:00 AM -
+10:00 PM), and free shuttle service covering major residential routes in the city, with pickup
+points and timings published on the internal Facilities portal.
+
+Visitor policy: all guests must be registered at least 2 hours in advance via the Visitor
+Management System and must be escorted by the hosting employee at all times within office premises.
+
+3. COMPANY EVENTS AND CULTURE
+-------------------------------
+Acme Corp hosts a company-wide town hall on the last Friday of every month, streamed live and
+recorded for employees who cannot attend. Annual events include the Founders' Day celebration in
+March and the year-end Acme Awards Night in December, recognizing outstanding contributions across
+departments.
+
+Employee Resource Groups (ERGs) currently active include Women@Acme, PrideAtAcme, and the Acme
+Green Initiative (sustainability-focused). Any employee can join an ERG by signing up on the
+internal Community portal; no manager approval is required.
+
+4. CODE OF CONDUCT AND GENERAL POLICIES
+------------------------------------------
+All employees are required to complete the Code of Conduct training annually, along with
+Information Security Awareness and Anti-Harassment training. Non-completion by the assigned
+deadline is escalated to the employee's manager and may affect the annual performance review.
+
+Employees can report concerns about ethics, harassment, or misconduct confidentially through the
+Ethics Hotline (ethics@acmecorp.com or the anonymous web form), which is managed independently of
+HR and reviewed by the Ethics Committee.
+
+5. MEETING ROOMS AND BOOKING
+-------------------------------
+Meeting rooms across all offices can be booked through the Outlook Room Finder or the internal
+"BookIt" app. Rooms with video conferencing equipment are marked with a camera icon in the booking
+system. No-show bookings (rooms reserved but unused for 15+ minutes) are automatically released for
+other employees to book.
+
+6. GENERAL QUERIES THAT DO NOT FIT ELSEWHERE
+------------------------------------------------
+- Building access badges are issued by Facilities on an employee's first day; lost badges should be
+  reported immediately to Facilities and Security, with a replacement fee of INR 200 for negligent
+  loss (waived for verified theft).
+- Parking: limited on-site parking is available on a first-come basis; employees are encouraged to
+  use the shuttle service or public transport where possible.
+- The internal employee directory and org chart are accessible via the "PeopleHub" portal, searchable
+  by name, team, or location.
+- For queries that genuinely span multiple departments (e.g., "I'm relocating for a new role"),
+  the General Knowledge Agent should direct the employee to both HR and Facilities as appropriate.
+
+7. CONTACT
+-----------
+General queries not covered by HR, IT, or Finance can be directed to
+generaldesk@acmecorp.com, staffed Monday-Friday, 9:30 AM - 6:30 PM IST.
