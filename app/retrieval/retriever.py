@@ -1,24 +1,23 @@
 from typing import Optional
 
-from openai import OpenAI
+from app.config import EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K
 from app.retrieval.vector_store import similarity_search
-from dotenv import load_dotenv
-load_dotenv()
+from app.core.openai_client import client
 
-client = OpenAI()
-
+# generate embeddings of query
 def generate_query_embeddings(query: str):
     response = client.embeddings.create(
-            model = "text-embedding-3-small",
+            model = EMBEDDING_MODEL,
             input = [query]
         )
 
     return response.data[0].embedding
 
+# retrieve chunks 
 def retrieve(
         query: str,
-        top_k: int = 5,
-        document_filter: str = Optional[None]
+        top_k: int = TOP_K,
+        document_filter: Optional[str] = None
 ):
     query_embedding = generate_query_embeddings(query)
     results = similarity_search(
@@ -29,4 +28,10 @@ def retrieve(
     if not results:
         return []
 
-    return results
+    filtered_results = []
+
+    for chunk in results:
+        if chunk["score"] >= SIMILARITY_THRESHOLD:
+            filtered_results.append(chunk)
+
+    return filtered_results

@@ -6,10 +6,11 @@ client = chromadb.PersistentClient(path="./chroma_db")
 
 collection = client.get_or_create_collection(
     name="documents",
+    metadata={"hnsw:space": "cosine"}
 )
 
+# store chunks into chromadb
 def store_chunks(chunks,file_name, upload_date):
-
     ids = []
     documents = []
     embeddings = []
@@ -32,9 +33,10 @@ def store_chunks(chunks,file_name, upload_date):
         metadatas=metadatas
     )
 
+# retrieve matches chunks
 def similarity_search(query_embeddings: List[float], top_k: int = 5):
     results = collection.query(
-        query_embeddings = query_embeddings,
+        query_embeddings = [query_embeddings],
         n_results = top_k
     )
     matches = []
@@ -58,6 +60,7 @@ def similarity_search(query_embeddings: List[float], top_k: int = 5):
 
     return matches
 
+# retrieved chunks by filename
 def get_chunks_by_file(filename: str):
     result = collection.get(
         where={"file_name":filename}
@@ -73,6 +76,7 @@ def get_chunks_by_file(filename: str):
         })
     return chunks
 
+# list of uploaded documents
 def list_uploaded_document():
     result = collection.get(
         include=["metadatas"]

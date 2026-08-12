@@ -1,13 +1,9 @@
-from openai import OpenAI
-from dotenv import load_dotenv
-
 from app.agents.hr_agent import answer as hr_answer
 from app.agents.it_agent import answer as it_answer
 from app.agents.finance_agent import answer as finance_answer
 from app.agents.general_agent import answer as general_answer
-
-load_dotenv()
-client = OpenAI()
+from app.config import CHAT_MODEL
+from app.core.openai_client import client
 
 def create_intent_prompt(question: str):
     intent_prompt = f"""
@@ -22,9 +18,10 @@ def create_intent_prompt(question: str):
         """
     return intent_prompt
 
+# detect agent
 def detect_intent(question: str):
     response = client.chat.completions.create(
-        model="gpt-5-mini",
+        model=CHAT_MODEL,
         messages = [
             {
                 "role":"user",
@@ -39,6 +36,7 @@ def detect_intent(question: str):
         return "general"
     return category
 
+# route request 
 def route(question: str, session_id: str):
     intent = detect_intent(question)
     if intent == "hr":
