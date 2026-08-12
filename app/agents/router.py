@@ -18,6 +18,7 @@ def create_intent_prompt(question: str):
         """
     return intent_prompt
 
+# detect agent
 def detect_intent(question: str):
     response = client.chat.completions.create(
         model=CHAT_MODEL,
@@ -35,6 +36,7 @@ def detect_intent(question: str):
         return "general"
     return category
 
+# route request 
 def route(question: str, session_id: str):
     intent = detect_intent(question)
     if intent == "hr":

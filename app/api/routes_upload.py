@@ -18,13 +18,14 @@ upload_router = APIRouter()
 async def upload_file(file: UploadFile = File(), department: str = Form(), db: Session = Depends(get_db)):
     file_ext = os.path.splitext(file.filename)[1].lower()
 
-    # error handle
+    # error invalid file type handle
     if file_ext not in [".docx",".pdf",".txt"]:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
             detail = f"{file_ext} file type not allowed"
         )
 
+    # error invalid department
     if department not in ["hr", "it", "finance", "general"]:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
@@ -35,9 +36,8 @@ async def upload_file(file: UploadFile = File(), department: str = Form(), db: S
     os.makedirs(UPLOAD_DIR,exist_ok=True)
     # join file path 
     file_path = os.path.join(UPLOAD_DIR,file.filename)
-    print("FilePath:", file_path)
-    # save file contents into file
     
+    # save file contents into file
     content = await file.read()
     with open(file_path,"wb") as f:
         f.write(content)
@@ -71,6 +71,7 @@ async def upload_file(file: UploadFile = File(), department: str = Form(), db: S
             upload_date = upload_date
         )
 
+        # store file metadata into table
         doc_row = Document(file_name=file.filename, upload_date=upload_time, department=department)
         db.add(doc_row)
         db.commit()

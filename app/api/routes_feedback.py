@@ -26,7 +26,8 @@ async def submit_feedback(request: FeedbackRequest, db: Session = Depends(get_db
             status_code=400,
             detail="timestamp must be ISO format",
         )
- 
+    
+    # store feedback into table
     feedback_row = Feedback(
         session_id=request.session_id,
         question=request.question,

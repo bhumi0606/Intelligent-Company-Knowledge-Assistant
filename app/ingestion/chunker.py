@@ -2,6 +2,7 @@ import re
 
 from app.config import CHUNK_OVERLAP, CHUNK_SIZE
 
+# check heading
 def is_heading(line: str):
     line = line.strip()
 
@@ -17,6 +18,7 @@ def is_heading(line: str):
 
     return any(re.match(pattern, line) for pattern in patterns)
 
+# split text into sections
 def split_into_sections(text):
     sections = []
 
@@ -46,6 +48,7 @@ def split_into_sections(text):
 
     return sections
 
+# chunk section into sentence
 def chunk_by_sentence(
     pages,
     file_name,

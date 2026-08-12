@@ -6,8 +6,7 @@ from app.tools.current_date import get_current_date
 from app.tools.tool_schemas import tools, tool_mapping
 from app.agents.router import create_intent_prompt, detect_intent
 
-# ---------- Tool Tests ----------
-
+# Tool Tests
 def test_calculator_basic_operations():
     assert tool_calculator("12 + 30") == 42.0
     assert tool_calculator("50 - 15") == 35.0
@@ -41,7 +40,7 @@ def test_tool_schemas_and_mappings():
         assert fname in tool_mapping
 
 
-# ---------- Router Intent Detection Tests ----------
+# Router Intent Detection Tests
 
 def test_intent_prompt_creation():
     prompt = create_intent_prompt("How many leaves can I take?")
@@ -65,8 +64,7 @@ def test_detect_intent_hr(mock_client):
     assert intent == "hr"
 
 
-# ---------- Base Agent Tool Calling Tests ----------
-
+# Base Agent Tool Calling Tests
 @patch("app.agents.base.client")
 def test_agent_tool_calling(mock_client):
     from app.agents.base import BaseAgent

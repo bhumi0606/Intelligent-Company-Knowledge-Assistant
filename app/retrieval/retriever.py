@@ -4,6 +4,7 @@ from app.config import EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K
 from app.retrieval.vector_store import similarity_search
 from app.core.openai_client import client
 
+# generate embeddings of query
 def generate_query_embeddings(query: str):
     response = client.embeddings.create(
             model = EMBEDDING_MODEL,
@@ -12,10 +13,10 @@ def generate_query_embeddings(query: str):
 
     return response.data[0].embedding
 
+# retrieve chunks 
 def retrieve(
         query: str,
-        top_k: int = TOP_K,
-        document_filter: Optional[str] = None
+        top_k: int = TOP_K
 ):
     query_embedding = generate_query_embeddings(query)
     results = similarity_search(

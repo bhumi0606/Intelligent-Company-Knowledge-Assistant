@@ -8,8 +8,7 @@ from app.db.database import get_db
 
 client = TestClient(app)
 
-# ---------- Upload API Tests ----------
-
+# Upload API Tests
 @patch("app.api.routes_upload.extract_text")
 @patch("app.api.routes_upload.chunk_by_sentence")
 @patch("app.api.routes_upload.generate_embeddings")
@@ -109,8 +108,7 @@ def test_upload_invalid_department():
     assert response.status_code == 404
 
 
-# ---------- Chat Query API Tests ----------
-
+# Chat Query API Tests
 @patch("app.api.routes_chat.route")
 def test_chat_query(mock_route):
     mock_route.return_value = {
@@ -142,8 +140,7 @@ def test_chat_query(mock_route):
     assert response.json()["agent_used"] == "hr_agent"
 
 
-# ---------- Feedback API Tests ----------
-
+# Feedback API Tests
 def test_submit_feedback_success():
     fake_db = MagicMock()
 
