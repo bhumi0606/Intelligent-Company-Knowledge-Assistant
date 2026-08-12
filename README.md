@@ -11,37 +11,45 @@
 
 The system is built around three core flows:
 
-1. **Upload** – ingesting a user's file, storing it, and preparing it for retrieval.
-2. **Chat** – routing a user's question to the right agent, retrieving relevant context, and generating an answer.
-3. **Feedback** – capturing whether the generated answer was useful.
+1. **Upload** – processing and storing uploaded documents for retrieval.
+2. **Chat** – routing user questions to the appropriate agent, retrieving relevant chunks, and generating an answer using an LLM.
+3. **Feedback** – storing user feedback for future analysis and improvement.
 
 ## Architecture
 
 ### 1. Upload Flow
 
 1. User uploads a file.
-2. File metadata (name, size, owner, timestamp, etc.) is saved into the database.
-3. The file itself is stored in a folder (file storage).
-4. The file is extracted (text/content extraction).
-5. Extracted content is divided into chunks.
-6. Each chunk is embedded and stored in a vector store for retrieval.
+2. File metadata is stored in the database.
+3. The file is stored in file storage.
+4. Text is extracted from the file.
+5. Extracted text is divided into structure-aware chunks.
+6. Chunks are embedded and stored in the vector store.
 
 ### 2. Chat Flow
 
-1. User sends a request containing a question.
-2. The request passes through a **router**.
-3. The router detects and forwards the request to the respective **agent**.
-4. The agent checks whether a **tool** is required to answer the question.
-   - If yes, the tool is invoked.
-   - If no, it proceeds directly to retrieval.
-5. The agent retrieves relevant data from the stored chunks (vector store).
-6. The agent generates and returns an answer to the user.
+1. User sends a question.
+2. The question is passed to the router.
+3. The router forwards the question to the appropriate agent.
+4. The agent retrieves the conversation history.
+5. The LLM decides whether a tool is required.
+6. If a tool is required:
+   - The agent calls the appropriate tool.
+   - `search_document` retrieves relevant chunks from the vector store.
+   - The retrieved chunks are passed back to the LLM.
+   - The LLM generates the final answer.
+7. If no tool is required:
+   - The agent uses the normal RAG flow through `answer_query`.
+   - Relevant information is retrieved.
+   - The LLM generates the answer.
+8. The answer is returned to the user.
+9. The conversation is stored in chat history.
 
 ### 3. Feedback Flow
 
 1. User submits feedback on the generated answer.
-2. Feedback indicates whether the response was useful or not.
-3. Feedback is stored in the database for future analysis/improvement.
+2. Feedback is stored in the database.
+3. The feedback can be used for future analysis and improvement.
 
 ### 4. Diagram
 ![architecture](./docs/arch-final.png)
