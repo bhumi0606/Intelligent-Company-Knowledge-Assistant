@@ -16,7 +16,8 @@ def generate_query_embeddings(query: str):
 # retrieve chunks 
 def retrieve(
         query: str,
-        top_k: int = TOP_K
+        top_k: int = TOP_K,
+        document_filter: Optional[str] = None
 ):
     query_embedding = generate_query_embeddings(query)
     results = similarity_search(
