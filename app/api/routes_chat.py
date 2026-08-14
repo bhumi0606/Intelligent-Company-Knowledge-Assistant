@@ -9,7 +9,7 @@ chat_router = APIRouter()
 @chat_router.post('/query', response_model=ChatResponse)
 async def chat_query(query: ChatRequest):
     try:
-        result = route(query.question, query.session_id)
+        result = await route(query.question, query.session_id)
     except Exception as e:
         raise HTTPException(
             status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
