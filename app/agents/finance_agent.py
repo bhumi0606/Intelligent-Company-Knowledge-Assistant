@@ -38,5 +38,5 @@ agent = BaseAgent(
 """
 )
 
-def answer(question: str, session_id):
-    return agent.answer(question, session_id)
+async def answer(question: str, session_id):
+    return await agent.answer(question, session_id)

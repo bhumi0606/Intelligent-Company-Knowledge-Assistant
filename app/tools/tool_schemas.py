@@ -1,3 +1,4 @@
+from app.mcp.weather_client import get_current_weather
 from app.tools.calculator import tool_calculator
 from app.tools.current_date import get_current_date
 from app.tools.list_documents import tool_list_uploaded_document
@@ -87,6 +88,29 @@ tools = [
                 'required':["expression"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_current_weather",
+            "description": """
+            Get the current weather for a city.
+
+            Use this tool when the user asks about current weather,
+            temperature, conditions, humidity, wind, or similar
+            weather information for a specific city.
+
+            """,
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string"
+                    }
+                },
+                "required": ["city"]
+            }
+        }
     }
 ]
 
@@ -95,5 +119,6 @@ tool_mapping = {
     "summarize_document": summarize_document,
     "tool_list_uploaded_document": tool_list_uploaded_document,
     "get_current_date":get_current_date,
-    "tool_calculator": tool_calculator
+    "tool_calculator": tool_calculator,
+    "get_current_weather": get_current_weather
 }
