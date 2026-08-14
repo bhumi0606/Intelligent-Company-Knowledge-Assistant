@@ -37,13 +37,13 @@ def detect_intent(question: str):
     return category
 
 # route request 
-def route(question: str, session_id: str):
+async def route(question: str, session_id: str):
     intent = detect_intent(question)
     if intent == "hr":
-        return hr_answer(question,session_id)
+        return await hr_answer(question,session_id)
     if intent == "it":
-        return it_answer(question, session_id)
+        return await it_answer(question, session_id)
     if intent == "finance":
-        return finance_answer(question, session_id)
+        return await finance_answer(question, session_id)
     if intent == "general":
-        return general_answer(question, session_id)
+        return await general_answer(question, session_id)
