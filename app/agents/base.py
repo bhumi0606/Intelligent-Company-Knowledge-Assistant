@@ -4,6 +4,7 @@ from app.memory.chat_history import add_message, get_history
 from app.rag.generate_answer import answer_query
 from app.tools.tool_schemas import tools, tool_mapping
 import json
+import inspect
 
 from app.core.openai_client import client
 class BaseAgent:
@@ -12,7 +13,7 @@ class BaseAgent:
         self.system_prompt = system_prompt
 
     # check if tool is needed and execute the tool
-    def tool_calling(self, question: str, history):
+    async def tool_calling(self, question: str, history):
         messages = [{"role": "system", "content": self.system_prompt}]
         messages.extend(history)
         messages.append({"role": "user", "content": question})
@@ -33,7 +34,10 @@ class BaseAgent:
         for call in message.tool_calls:
             args = json.loads(call.function.arguments or "{}")
             tool_function = tool_mapping[call.function.name]
-            result = tool_function(**args)
+            if inspect.iscoroutinefunction(tool_function):
+                result = await tool_function(**args)    
+            else:
+                result = tool_function(**args)
             if call.function.name == "search_document" and result:
                 for c in result:
                     retrieved_chunks.append(c["text"])
@@ -62,10 +66,10 @@ class BaseAgent:
         return final_response.choices[0].message.content, citations, retrieved_chunks
 
     # answer the user's question
-    def answer(self, question: str, session_id: str):
+    async def answer(self, question: str, session_id: str):
         history = get_history(session_id)
 
-        tool_answer, tool_citations, retrieved_chunks = self.tool_calling(question, history)
+        tool_answer, tool_citations, retrieved_chunks = await self.tool_calling(question, history)
         if tool_answer is not None:
             return {
                 "answer": tool_answer,
