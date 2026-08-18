@@ -1,7 +1,9 @@
 from app.config import CHAT_MODEL
 from app.retrieval.vector_store import get_chunks_by_file
 from app.core.openai_client import client
+from langsmith import traceable
 
+@traceable(name="summarize document", project_name="Intelligent-Company-Knowledge-Assistant")
 def summarize_document(filename: str):
     chunks = get_chunks_by_file(filename=filename)
     if not chunks:

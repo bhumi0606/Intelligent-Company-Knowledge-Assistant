@@ -1,4 +1,6 @@
+from langsmith import traceable
 
+@traceable(name="tool calculator", project_name="Intelligent-Company-Knowledge-Assistant")
 def tool_calculator(expression: str):
     try:
         expression = expression.strip()

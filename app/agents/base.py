@@ -7,12 +7,15 @@ import json
 import inspect
 
 from app.core.openai_client import client
+from langsmith import traceable
+
 class BaseAgent:
     def __init__(self, name, system_prompt):
         self.name = name
         self.system_prompt = system_prompt
 
     # check if tool is needed and execute the tool
+    @traceable(name="Tool calling", project_name="Intelligent-Company-Knowledge-Assistant")
     async def tool_calling(self, question: str, history):
         messages = [{"role": "system", "content": self.system_prompt}]
         messages.extend(history)
@@ -66,9 +69,10 @@ class BaseAgent:
         return final_response.choices[0].message.content, citations, retrieved_chunks
 
     # answer the user's question
+    @traceable(name="Agent Answer", project_name="Intelligent-Company-Knowledge-Assistant")
     async def answer(self, question: str, session_id: str):
         history = get_history(session_id)
-
+        history = history[-3:]
         tool_answer, tool_citations, retrieved_chunks = await self.tool_calling(question, history)
         if tool_answer is not None:
             return {
@@ -84,7 +88,6 @@ class BaseAgent:
                 history=history
             )
             result["agent_used"] = self.name
-        
         add_message(session_id, "user", question)
         add_message(session_id, "assistant", result["answer"])
 

@@ -1,5 +1,6 @@
 from typing import List
 
+from app.config import TOP_K
 import chromadb
 
 client = chromadb.PersistentClient(path="./chroma_db")
@@ -34,7 +35,7 @@ def store_chunks(chunks,file_name, upload_date):
     )
 
 # retrieve matches chunks
-def similarity_search(query_embeddings: List[float], top_k: int = 5):
+def similarity_search(query_embeddings: List[float], top_k: int = TOP_K):
     results = collection.query(
         query_embeddings = [query_embeddings],
         n_results = top_k

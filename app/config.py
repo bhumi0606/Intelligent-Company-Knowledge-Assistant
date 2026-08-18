@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
+import os
 
 class Settings(BaseSettings):
     OPENAI_API_KEY: str
@@ -11,7 +11,11 @@ class Settings(BaseSettings):
     CHUNK_SIZE: int
     CHUNK_OVERLAP: int
     UPLOAD_DIR: str
-    
+    LANGSMITH_API_KEY: str
+    LANGSMITH_TRACING: bool
+    LANGSMITH_PROJECT: str
+    LANGSMITH_ENDPOINT: str
+
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore"

@@ -3,6 +3,7 @@ from typing import Optional
 from app.config import EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K
 from app.retrieval.vector_store import similarity_search
 from app.core.openai_client import client
+from langsmith import traceable
 
 # generate embeddings of query
 def generate_query_embeddings(query: str):
@@ -14,6 +15,8 @@ def generate_query_embeddings(query: str):
     return response.data[0].embedding
 
 # retrieve chunks 
+
+@traceable(name="retrieve chunks", project_name="Intelligent-Company-Knowledge-Assistant")
 def retrieve(
         query: str,
         top_k: int = TOP_K,
